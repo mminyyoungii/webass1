@@ -13,7 +13,17 @@ router.use((req, res, next) => {
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile', { title: '내 정보 - NodeBird' });
+  res.render('profile', { title: 'MY_PROFILE' });
+});
+
+router.get('/follow', isLoggedIn, (req, res) => {
+  res.render('follow', { title: 'FOLLOW' });
+});
+router.get('/msg', isLoggedIn, (req, res) => {
+  res.render('msg', { title: 'MESSAGE' });
+});
+router.get('/new', isLoggedIn, (req, res) => {
+  res.render('new', { title: 'NEW' });
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {

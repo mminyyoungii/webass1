@@ -2,21 +2,43 @@
 
 {% block content %}
   <div class="timeline">
+    <div class="user-name">{{'안녕하세요! ' + user.nick_id + '님'}}</div>
+    <div>
+      <h3>Date and Time: <span id="now"></span></h3>
+    </div>
     <div class="followings half">
-      <h2>팔로잉 목록</h2>
+  
+    
       {% if user.Followings %}
-        {% for following in user.Followings %}
-          <div>{{following.nick_id}}</div>
-        {% endfor %}
+      <div class="half">
+        <div>팔로잉 수</div>
+        <div class="count following-cou                                                                                                                                                                                                                                                                                                                                nt">{{followingCount}}</div>
+        </div>
+        <!-- {% for following in user.Followings %}
+          <div>{{following.nick_id}}</div> 
+      
+        {% endfor %} -->
       {% endif %}
     </div>
     <div class="followers half">
-      <h2>팔로워 목록</h2>
+     
       {% if user.Followers %}
-        {% for follower in user.Followers %}
-          <div>{{follower.nick_id}}</div>
-        {% endfor %}
+      <div class="half">
+        <div>팔로워 수</div>
+        <div class="count follower-count">{{followerCount}}</div>
+        </div>
+        <!-- {% for follower in user.Followers %}
+      
+        {% endfor %} -->
       {% endif %}
     </div>
   </div>
-{% endblock %}
+
+  <script>
+    document.getElementById("now").innerHTML=new Date();
+  </script>
+
+  {% endblock %}
+
+
+

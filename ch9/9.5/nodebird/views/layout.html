@@ -12,6 +12,16 @@
       <div class="profile-wrap">
         <div class="profile">
           {% if user and user.id %}
+          <!-- 로그인했을때 -->
+          <!--버튼 여러개 출력-->
+          <a id="home" href="/" class="btn">HOME</a>
+          <a id="new" href="/new" class="btn">NEW</a>
+          <a id="profile" href="/profile" class="btn">MY PROFILE</a>
+          
+          <a id="follow" href="/follow" class="btn">FOLLOW</a>
+          <a id="msg" href="/msg" class="btn">MESSAGE</a>
+          <a id="logout" href="/auth/logout" class="btn">LOG OUT</a>
+          <!--
             <div class="user-name">{{'안녕하세요! ' + user.nick_id + '님'}}</div>
             <div class="half">
               <div>팔로잉</div>
@@ -23,7 +33,7 @@
             </div>
           <input id="my-id" type="hidden" value="{{user.id}}">
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
-          <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+          <a id="logout" href="/auth/logout" class="btn">로그아웃</a> -->
         {% else %}
         <img src="image.png" width="60" height="60">
         <img src= "ssustagram_1.png" width="150" height="50">
