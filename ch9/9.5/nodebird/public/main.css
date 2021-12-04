@@ -44,7 +44,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   margin-right: 10px;
   border-radius: 4px;
   border: 1px solid silver;
-  background: lightcoral;
+  background: white;
 }
 .user-name { font-weight: bold; font-size: 18px; }
 .count { font-weight: bold; color: crimson; font-size: 18px; }

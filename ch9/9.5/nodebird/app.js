@@ -17,7 +17,7 @@ const passportConfig = require('./passport');
 
 const app = express();
 passportConfig(); // 패스포트 설정
-app.set('port', process.env.PORT || 9949);
+app.set('port', process.env.PORT || 8049);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
   express: app,
@@ -26,6 +26,7 @@ nunjucks.configure('views', {
 sequelize.sync({ force: false })
   .then(() => {
     console.log('데이터베이스 연결 성공');
+    
   })
   .catch((err) => {
     console.error(err);
