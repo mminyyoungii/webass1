@@ -8,8 +8,11 @@ module.exports = class Post extends Sequelize.Model {
         allowNull: false,
       },
       img: {
-        type: Sequelize.STRING(200),
+        type: Sequelize.STRING(300),
         allowNull: true,
+      },
+      index: {
+        type: Sequelize.INTEGER,
       },
     }, {
       sequelize,

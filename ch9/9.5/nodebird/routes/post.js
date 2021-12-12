@@ -28,23 +28,41 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
-  console.log(req.file);
-  res.json({ url: `/img/${req.file.filename}` });
+
+//사진 upload에 저장하고 전달해서 미리보기 
+router.post('/img', upload.array('img',5), (req, res) => {
+  console.log("파일 이름: ",req.files);
+  let urlArr = new Array(); 
+  for (let i = 0; i < req.files.length; i++) { 
+    urlArr.push(`/img/${req.files[i].filename}`); 
+    console.log(urlArr[i]); 
+  } 
+  let jsonUrl = JSON.stringify(urlArr);
+  res.json(jsonUrl);
+
+  //res.json({ url: `/img/${req.file.filename}` });
 });
 
 const upload2 = multer();
-router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
-  try {
+
+
+router.post("/", upload2.array("img", 5), async (req, res, next) => { 
+  console.log(req.body.content); 
+  console.log(req.body.url);
+  console.log("toString()");
+  console.log(req.body.url.toString()); //올린 사진 개수에 따라 배열로 나옴 
+  try { 
     console.log(req.user);
-    const post = await Post.create({
-      content: req.body.content,
-      img: req.body.url,
-      UserId: req.user.id,
+    const post = await Post.create({ 
+      content: req.body.content, 
+      img: req.body.url.toString(), 
+      userId: req.user.id, 
+      index:req.body.url.toString().split(",").length,
     });
+
     const hashtags = req.body.content.match(/#[^\s#]*/g);
     if (hashtags) {
-      const result = await Promise.all(
+      const result = await Promise.all( 
         hashtags.map(tag => {
           return Hashtag.findOrCreate({
             where: { title: tag.slice(1).toLowerCase() },
@@ -53,11 +71,18 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       );
       await post.addHashtags(result.map(r => r[0]));
     }
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
+
+     res.redirect("/"); 
+    } catch (error) { 
+      console.error(error); 
+      next(error); 
+    }
+   }
+  );
+
+
+
+
 
 module.exports = router;
+
