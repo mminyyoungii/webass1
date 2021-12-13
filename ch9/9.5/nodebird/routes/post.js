@@ -56,7 +56,7 @@ router.post("/", upload2.array("img", 5), async (req, res, next) => {
     const post = await Post.create({ 
       content: req.body.content, 
       img: req.body.url.toString(), 
-      userId: req.user.id, 
+      UserId: req.user.id, 
       index:req.body.url.toString().split(",").length,
     });
 

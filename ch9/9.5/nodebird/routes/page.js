@@ -30,6 +30,10 @@ router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: '회원가입 - NodeBird' });
 });
 
+router.get('/certification', isNotLoggedIn, (req, res) => {
+  res.render('certification', { title: '인증' });
+});
+
 router.get('/', async (req, res, next) => {
   try {
     const posts = await Post.findAll({
@@ -39,6 +43,7 @@ router.get('/', async (req, res, next) => {
       },
       order: [['createdAt', 'DESC']],
     });
+    console.log("asdasd",posts);
     res.render('main', {
       title: 'NodeBird',
       twits: posts,

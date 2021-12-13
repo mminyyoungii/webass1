@@ -24,7 +24,7 @@
         </form>
         {% for twit in twits %}
           <div class="twit">
-            <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+            <input type="hidden" value="{{twit.userId}}" class="twit-user-id">
             <input type="hidden" value="{{twit.id}}" class="twit-id">
             <div class="twit-author">{{twit.User.nick_id}}</div>
             {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
@@ -34,7 +34,7 @@
             {% if twit.img %}
               <!-- for 문을 이용하여 이미지 개수만큼 화면에 이미지 출력 -->
               {% for i in twit.img.split(',') %}
-              <img src={{i}}>
+              <img class="imagesize" src={{i}}>
               {% endfor %}
             {% endif %}
             
@@ -49,6 +49,7 @@
 {% block script %}
 
   <script>
+    console.log("user.id: ",document.querySelector('.twit-user-id').value);
     if (document.getElementById('img')) {
       let uploadNum=0;  //올린 사진개수 
       let index=0;  //img에 붙일 index

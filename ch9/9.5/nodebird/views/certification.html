@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{%block content%}
+<div class="timeline">
+    <form id="join-form" action="/auth/certification" method="post">
+      <div class="input-group">
+        <label for="email_c">인증번호</label>
+        <input id="email_c" type="text" name="email_c"></div>
+        <button id="cer-btn" type="submit" class="btn">인증</button>
+    </form>
+</div>
+{% endblock %}

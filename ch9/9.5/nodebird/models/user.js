@@ -30,6 +30,18 @@ module.exports = class User extends Sequelize.Model {
         type: Sequelize.STRING(30),
         allowNull: true,
       },
+      certi:{ //인증번호를 저장
+        type: Sequelize.STRING(100),
+      },
+      iscerti:{   //활성화 유무 
+          type:Sequelize.BOOLEAN,
+          defaultValue:false,
+      },
+      input_certi:{ //입력받은 인증번호
+        type:Sequelize.STRING(100),
+      },
+
+   
     }, {
       sequelize,
       timestamps: true,
