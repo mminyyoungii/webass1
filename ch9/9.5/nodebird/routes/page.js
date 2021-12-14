@@ -1,6 +1,10 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag } = require('../models');
+const sequelize=require("sequelize");
+const {writer}=require("repl")
+const Op=sequelize.Op;
+
 
 const router = express.Router();
 
@@ -16,9 +20,8 @@ router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { title: 'MY_PROFILE' });
 });
 
-router.get('/follow', isLoggedIn, (req, res) => {
-  res.render('follow', { title: 'FOLLOW' });
-});
+
+
 router.get('/msg', isLoggedIn, (req, res) => {
   res.render('msg', { title: 'MESSAGE' });
 });
@@ -43,7 +46,7 @@ router.get('/', async (req, res, next) => {
       },
       order: [['createdAt', 'DESC']],
     });
-    console.log("asdasd",posts);
+ 
     res.render('main', {
       title: 'NodeBird',
       twits: posts,
@@ -53,6 +56,7 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
 
 router.get('/hashtag', async (req, res, next) => {
   const query = req.query.hashtag;
@@ -76,4 +80,77 @@ router.get('/hashtag', async (req, res, next) => {
   }
 });
 
+router.get('/search', async (req, res, next) => {
+  const query = req.query.search;
+  const opt=req.query.opt;
+
+  console.log(query);
+  if (!query) {
+    return res.redirect('/');
+  }
+  try {
+    let posts=[];
+
+    if(opt=="hashtag"){
+
+      const hashtag=await Post.findAll({
+        include:[
+        {  
+          model:Hashtag,
+          where:{
+            title:{[Op.like]:"%"+query+"%"},
+          },
+        },
+        {model: User},
+        ],
+      });
+      if(hashtag) { posts=await hashtag;}
+    }
+      else if(opt=="writer") {
+      const writer=await Post.findAll({
+        include:{
+          model:User,
+          where:{
+            nick_id:{[Op.like]:"%"+query+"%"},
+          },
+        },
+      });
+      if(writer) { posts=await writer;}
+    }
+      else if(opt=="text") {
+        const text=await Post.findAll({
+          where:{ content:{[Op.like]:"%"+query+"%"}}, 
+          include:{model:User},  
+        });if(text) { posts=await text;}
+      }
+
+      
+  
+    return res.render('main', {
+      title: `${query} | NodeBird`,
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+
+//db에서 팔로우 목록 읽어와서 내림차순으로 정렬하기
+router.get('/follow', async (req, res, next) => {
+  try {
+    const users= await User.findAll({
+      order: [['createdAt', 'DESC']],
+    });
+    console.log("124");
+    res.render('userlist', {
+      title: 'NodeBird',
+      twits: users,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 module.exports = router;

@@ -21,6 +21,7 @@
           <a id="follow" href="/follow" class="btn">FOLLOW</a>
           <a id="msg" href="/msg" class="btn">MESSAGE</a>
           <a id="logout" href="/auth/logout" class="btn">LOG OUT</a>
+          <input id="my-id" type="hidden" value="{{user.id}}">
           <!--
             <div class="user-name">{{'안녕하세요! ' + user.nick_id + '님'}}</div>
             <div class="half">
@@ -31,7 +32,7 @@
               <div>팔로워</div>
               <div class="count follower-count">{{followerCount}}</div>
             </div>
-          <input id="my-id" type="hidden" value="{{user.id}}">
+          
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a> -->
         {% else %}

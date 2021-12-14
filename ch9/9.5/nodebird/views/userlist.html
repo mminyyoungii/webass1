@@ -1,0 +1,71 @@
+
+{% extends 'follow.html' %}
+
+{% block content %}
+
+{% for twit in twits %}
+{% if user.id != twit.id%}
+    <div>
+        <input type="hidden" value="{{twit.id}}" class="twit-user-id">
+
+            {{twit.nick_id}}
+            {% if not followerIdList.includes(twit.id) and twit.id !== user.id %} 
+                <button class="twit-follow">팔로우하기</button>
+            {% else %}
+                <button class="twit-unfollow">팔로잉</button>
+            {% endif %}
+    </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+<script>
+    //팔로우 구현
+
+    document.querySelectorAll('.twit-follow').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const userId = tag.parentNode.querySelector('.twit-user-id').value;
+          if (userId !== myId.value) {
+            if (confirm('팔로잉하시겠습니까?')) {
+              axios.post(`/user/${userId}/follow`)
+                .then(() => {
+                  location.reload();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            }
+          }
+        }
+      });
+    });
+    //언팔로우 구현
+    document.querySelectorAll('.twit-unfollow').forEach(function(tag){ 
+        tag.addEventListener('click',function(){ 
+            const myId = document.querySelector('#my-id').value; 
+            if (myId){ //로그인된 사용자 존재하면 
+                const userId = tag.parentNode.querySelector('.twit-user-id').value; 
+                if (myId !== userId){ //현재 사용자와 팔로잉끊기한 사용자가 다르면 
+                    if (confirm('팔로잉을 끊으시겠습니까?')){ //팔로잉끊기 여부 묻기 
+                        axios.post(`/user/${userId}/unfollow`) //routes/user.js의 notfollow 코드로 이동 
+                        .then(()=>{ location.reload(); 
+                        }) 
+                        .catch((error)=>{ 
+                            console.error(error);
+                         });
+                    }
+                }
+            }
+        }); 
+    });
+
+
+    
+</script>
+{% endblock %}
+
+<!--코드 참고
+    https://youthangcode.tistory.com/entry/Nodejs-%ED%8C%94%EB%A1%9C%EC%9A%B0%ED%95%98%EA%B8%B0-%ED%8C%94%EB%A1%9C%EC%9E%89%EB%81%8A%EA%B8%B0-%EA%B5%AC%ED%98%84-->

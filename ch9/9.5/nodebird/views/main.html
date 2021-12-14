@@ -3,24 +3,19 @@
 {% block content %}
 {% if user and user.id %}
     <div class="timeline">
-        <!-- <div>
-          <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <textarea id="twit" name="content" maxlength="140" class="form-control"></textarea>
-            </div>
-            <div class="img-preview">
-            </div>
-            <div>
-              <label id="img-label" for="img">사진 업로드</label>
-              <input id="img" type="file" accept="image/*" multiple/>
-              <button id="twit-btn" type="submit" class="btn">게시!</button>
-            </div>
-          </form>
-        </div> -->
+
+
       <div class="twits">
-        <form id="hashtag-form" action="/hashtag">
-          <input type="text" name="hashtag" placeholder="태그 검색">
+        <form id="hashtag-form" action="/search">
+          <fieldset>
+          <legend>search</legend>
+          <label><input type="radio" name="opt" value="writer">작성자</label>
+          <label><input type="radio" name="opt" value="text">일반텍스트</label>
+          <label><input type="radio" name="opt" value="hashtag">해시태그</label>
+          <input type="text" name="search">
           <button class="btn">검색</button>
+       
+          </fieldset>
         </form>
         {% for twit in twits %}
           <div class="twit">
@@ -120,24 +115,6 @@
         
       });
     }
-    // document.querySelectorAll('.twit-follow').forEach(function(tag) {
-    //   tag.addEventListener('click', function() {
-    //     const myId = document.querySelector('#my-id');
-    //     if (myId) {
-    //       const userId = tag.parentNode.querySelector('.twit-user-id').value;
-    //       if (userId !== myId.value) {
-    //         if (confirm('팔로잉하시겠습니까?')) {
-    //           axios.post(`/user/${userId}/follow`)
-    //             .then(() => {
-    //               location.reload();
-    //             })
-    //             .catch((err) => {
-    //               console.error(err);
-    //             });
-    //         }
-    //       }
-    //     }
-    //   });
-    // });
+
   </script>
 {% endblock %}
